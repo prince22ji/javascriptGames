@@ -2,15 +2,17 @@ document.addEventListener('DOMContentLoaded',()=>{
     var gameDiv= document.querySelector('.gameGrid')
     let direction =1
     let snakeArr= [2,1,0]
+    document.getElementById("Re_Start").onclick = "location.reload()"
     for(var i=0;i<100;i++){
         const square= document.createElement('div')
-        square.setAttribute('class','squares'+` div${i}`)
+        square.setAttribute('class','squares'+` div${i}`)   
         console.log()
         gameDiv.appendChild(square)
     }
     var Squares= document.querySelectorAll('.gameGrid div');
     // Squares[snakeArr].classList.add('snake')
-    var any =Squares[apple()].classList.add('apple') 
+    score=0
+    
     function control(e){
         console.log('this is working')
         if (e.code =="ArrowRight"){
@@ -43,10 +45,14 @@ document.addEventListener('DOMContentLoaded',()=>{
                 ){
                     alert('game over')
                     snakeArr=[]
+                    location.reload()
                 }
                 if (Squares[snakeArr[0]].classList.contains('apple')){
                     Squares[snakeArr[0]].classList.remove('apple')
-                    snakeArr.push(snakeArr[snakeArr.length()])
+                    snakeArr.push(snakeArr[0])
+                    apple()
+                    score=score+1;
+                    document.getElementById('score').innerHTML= score
                 }
                 snakeArr.forEach(index=> Squares[index].classList.remove('snake','snakeHeadRight','snakeHeadLeft','snakeHeadUp','snakeHeadDown'))
                 snakeArr.pop()
@@ -70,20 +76,23 @@ document.addEventListener('DOMContentLoaded',()=>{
                         }
                 })
             }
-            // snakeArr[0].Squares.classList.add('snakeHeadUp')
+            
             console.log(direction)
             console.log()
             setInterval(snakeMove,500)
-            // const startButton=document.querySelector('#Re_Start')
-            // start= ;
-            // startButton.addEventListener('click',)
-           
             document.addEventListener('keyup', control)
-            
-                
-            // console.log(startButton)
      function apple(){
-
-        return Math.floor(Math.random()* 99)}
+         const rand=Math.floor(Math.random()* 99)
+        if(Squares[rand].classList.contains('snake'||'snakeHeadRight'||'snakeHeadLeft'||'snakeHeadUp'||'snakeHeadDown')){
+            apple()
+            console.log("this block was used")
+        }
+        else{
+            console.log("this else part was used")
+            Squares[rand].classList.add('apple')
+        }
+      
+    }
+    apple()
     
     })
