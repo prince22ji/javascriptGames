@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded',()=>{
     var gameDiv= document.querySelector('.gameGrid')
-    let snakeArr= [2,1,0]
     let direction =1
+    let snakeArr= [2,1,0]
     for(var i=0;i<100;i++){
         const square= document.createElement('div')
         square.setAttribute('class','squares'+` div${i}`)
@@ -13,27 +13,41 @@ document.addEventListener('DOMContentLoaded',()=>{
     var any =Squares[apple()].classList.add('apple') 
     function control(e){
         console.log('this is working')
-            if (e.code =="ArrowRight"){
-                direction= 1
-                snakeHead= 'snakeHeadRight'
-                // console.log(direction)
-            }
-            else if(e.code=="ArrowDown"){
-                direction = 10
-                snakeHead= 'snakeHeadDown'
-                // console.log(direction)
-            }
-            else if(e.code=="ArrowLeft"){
-                direction = -1
-                snakeHead= 'snakeHeadLeft'
-                // console.log(direction)
-            }
-            else if(e.code=="ArrowUp" ){
-                direction = -10
-                snakeHead= 'snakeHeadUp'
-            }
+        if (e.code =="ArrowRight"){
+            direction= 1
+            snakeHead= 'snakeHeadRight'
+            // console.log(direction)
         }
-            function snakeMove(){
+        else if(e.code=="ArrowDown"){
+            direction = 10
+            snakeHead= 'snakeHeadDown'
+            // console.log(direction)
+        }
+        else if(e.code=="ArrowLeft"){
+            direction = -1
+            snakeHead= 'snakeHeadLeft'
+            // console.log(direction)
+        }
+        else if(e.code=="ArrowUp" ){
+            direction = -10
+            snakeHead= 'snakeHeadUp'
+        }
+    }
+    function snakeMove(){
+                if (
+                    (snakeArr[0]+ 10>=(100) && direction===10)||
+                    (snakeArr[0]% 10==9 && direction===1)||
+                    (snakeArr[0]% 10==0 && direction=== -1)||
+                    (snakeArr[0]-10<0 && direction===-10)||
+                    (Squares[snakeArr[0]+direction].classList.contains('snake'))
+                ){
+                    alert('game over')
+                    snakeArr=[]
+                }
+                if (Squares[snakeArr[0]].classList.contains('apple')){
+                    Squares[snakeArr[0]].classList.remove('apple')
+                    snakeArr.push(snakeArr[snakeArr.length()])
+                }
                 snakeArr.forEach(index=> Squares[index].classList.remove('snake','snakeHeadRight','snakeHeadLeft','snakeHeadUp','snakeHeadDown'))
                 snakeArr.pop()
                 snakeArr.unshift(snakeArr[0]+direction)
@@ -55,10 +69,6 @@ document.addEventListener('DOMContentLoaded',()=>{
                         Squares[index].classList.add('snake')
                         }
                 })
-                if (snakeArr[0]+ direction>99){
-                    alert('game over')
-                    snakeArr=[]
-                }
             }
             // snakeArr[0].Squares.classList.add('snakeHeadUp')
             console.log(direction)
